@@ -1,50 +1,37 @@
-const path = require('path');
-const util = require('util');
-const fs = require('fs');
+const express = require('express');
 
-const readdir = util.promisify(fs.readdir);
+const app = express();
 
-const config = {
-  typeDirs: [
-    { type: ".pdf", directory: "documents" },
-    { type: ".png", directory: "images" },
-    { type: ".mp3", directory: "music" }
-  ]
-};
+const LIMIT = 20;
+const DELAY = 1000;
 
-const directory = process.argv[2];
+const PORT = 3000;
 
-if (!directory) {
-  console.log("Specify the target directory");
-  return;
-}
+let connections = [];
 
-[...config.typeDirs, { directory: "other" }].map(d => {
-  const dirname = `${directory}/${d.directory}`;
-  if (!fs.existsSync(dirname)) {
-    fs.mkdirSync(dirname);
-  }
-});
+app.get('/date', (req, res, next) => {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Transfer-Encoding', 'chunked');
+  connections.push(res);
+})
 
-(async () => {
-  const files = await readdir(directory);
-
-  files.forEach(file => {
-    const extname = path.extname(file);
-
-    if (!extname) {
-      return;
-    }
-
-    const { directory: targetDir = 'other' } = config.typeDirs.find(dir => dir.type == extname) || {};
-
-    const oldPath = path.join(__dirname, directory, file);
-    const newPath = path.join(__dirname, directory, targetDir, file);
-
-    fs.renameSync(oldPath, newPath, function (err) {
-      if (err) {
-        throw err;
-      }
+let tick = 0;
+setTimeout(function run() {
+  console.log(tick);
+  if (++tick > LIMIT) {
+    connections.map(res => {
+      res.write("END\n");
+      res.end();
     });
-  });
-})();
+    connections = [];
+    tick = 0;
+  }
+  connections.map((res, i) => {
+    res.write(`Hello ${i}! Tick: ${tick}.\n`);
+  })
+  setTimeout(run, DELAY)
+}, DELAY)
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
