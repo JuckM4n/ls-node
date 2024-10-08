@@ -57,17 +57,6 @@ function copyFile(src, dest, callback) {
   })
 }
 
-function removeDir(path, callback) {
-  fs.rmdir(path, { recursive: true }, (err) => {
-    if (err) {
-      callback(err)
-    } else {
-      console.log("Папка удалена")
-    }
-
-  })
-}
-
 function sorter(src) {
   fs.readdir(src, (err, files) => {
     if (err) throw err
@@ -92,10 +81,6 @@ function sorter(src) {
               const destinationPath = path.join(folderName, file)
               copyFile(currentPath, destinationPath, (err) => {
                 if (err) throw err
-
-                removeDir(config.entry, (err) => {
-                  if (err) throw err
-                })
               })
             })
           })
