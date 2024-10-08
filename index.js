@@ -118,7 +118,7 @@ async function sorter(src) {
           const firstLetter = file[0].toUpperCase()
           const pathFolder = path.join(config.dist, firstLetter)
           await createDir(pathFolder)
-          const destinationPath = `${pathFolder}/${file}`
+          const destinationPath = path.join(pathFolder, file) //`${pathFolder}/${file}`
           await copyFile(currentPath, destinationPath)
         }
       }
