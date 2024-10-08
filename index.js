@@ -1,11 +1,11 @@
 const express = require('express');
+require('dotenv').config()
 
 const app = express();
 
-const LIMIT = 20;
-const DELAY = 1000;
-
-const PORT = 3000;
+LIMIT = process.env.LIMIT || 30;
+DELAY = process.env.DELAY || 2000;
+PORT = process.env.PORT || 3000;
 
 let connections = [];
 
