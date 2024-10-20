@@ -1,0 +1,79 @@
+{
+  "skills": [
+    {
+      "number": "16",
+      "text": "Возраст начала занятий на скрипке"
+    },
+    {
+      "number": "78",
+      "text": "Концертов отыграл"
+    },
+    {
+      "number": "32",
+      "text": "Максимальное число городов в туре"
+    },
+    {
+      "number": "22",
+      "text": "Лет на сцене в качестве скрипача"
+    }
+  ],
+  "products": [
+    {
+      "src": "./assets/img/products/Work1.jpg",
+      "name": "Вино вдохновение",
+      "price": 600
+    },
+    {
+      "src": "./assets/img/products/Work2.jpg",
+      "name": "Вино вдохновение",
+      "price": 600
+    },
+    {
+      "src": "./assets/img/products/Work3.jpg",
+      "name": "Вино вдохновение",
+      "price": 600
+    },
+    {
+      "src": "./assets/img/products/Work4.jpg",
+      "name": "Вино вдохновение",
+      "price": 600
+    },
+    {
+      "src": "./assets/img/products/Work5.jpg",
+      "name": "Вино вдохновение",
+      "price": 600
+    },
+    {
+      "src": "./assets/img/products/Work6.jpg",
+      "name": "Вино вдохновение",
+      "price": 600
+    },
+    {
+      "src": "./assets/img/products/Work7.jpg",
+      "name": "Вино вдохновение",
+      "price": 600
+    },
+    {
+      "src": "./assets/img/products/Work8.jpg",
+      "name": "Вино вдохновение",
+      "price": 600
+    },
+    {
+      "src": "./assets/img/products/Work9.jpg",
+      "name": "Вино вдохновение",
+      "price": 600
+    },
+    {
+      "src": "./assets/img/products/logo.jpg",
+      "name": "Test",
+      "price": "123"
+    }
+  ],
+  "mails": [
+    {
+      "name": "Никита",
+      "email": "testnb@testnb.ru",
+      "message": "123"
+    }
+  ]
+}
