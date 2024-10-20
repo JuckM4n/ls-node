@@ -1,0 +1,49 @@
+{
+  "name": "hw4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.5.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-json": "^3.1.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "koa": "^2.13.4",
+    "koa-body": "^4.0.4",
+    "koa-connect-flash": "^0.1.2",
+    "koa-mount": "^4.0.0",
+    "koa-pug": "^3.0.0-2",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.8.2",
+    "koa-static": "^5.0.0",
+    "lint-fix": "^0.24.0",
+    "lowdb": "^1.0.0",
+    "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1",
+    "pug": "^2.0.3"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "prettier": "prettier --write ./**/*.js",
+    "lint": " eslint **/*.{js,json}",
+    "lint:fix": "eslint --fix **/*.{js,json}"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InnaOnline/nodejs-week2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/InnaOnline/nodejs-week2/issues"
+  },
+  "homepage": "https://github.com/InnaOnline/nodejs-week2#readme"
+}
+
