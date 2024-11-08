@@ -7,13 +7,13 @@ section.form
     form(action="/" method="POST").form-email
       .form-email__line
         label.form-email__label(for="") Имя *
-        input.form-email__input(type="text" name="name")
+        input.form-email__input(type="text" name="name" required)
       .form-email__line
         label.form-email__label(for="") Email *
-        input.form-email__input(type="email" name="email")
+        input.form-email__input(type="email" name="email" required)
       .form-email__line
         label.form-email__label(for="") Сообщение
-        textarea(name="message").form-email__textarea
+        textarea(name="message" required).form-email__textarea
       .form-email__line
         button(type="submit").form-email__button.button Отправить
     

@@ -1,10 +1,25 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
-router.use('/', require('./main'))
+const ctrlHome = require('../controllers/home');
+const ctrlLogin = require('../controllers/login');
+const ctrlAdmin = require('../controllers/admin');
 
-router.use('/login', require('./login'))
+const isAdmin = (req, res, next) => {
+    if (req.session.isAdmin) {
+        return next();
+    }
+    res.redirect('/login');
+}
 
-router.use('/admin', require('./admin'))
+router.get('/', ctrlHome.get);
+router.post('/', ctrlHome.post);
 
-module.exports = router
+router.get('/login', ctrlLogin.get);
+router.post('/login', ctrlLogin.post);
+
+router.get('/admin', isAdmin, ctrlAdmin.get);
+router.post('/admin/upload', isAdmin, ctrlAdmin.addProduct);
+router.post('/admin/skills', isAdmin, ctrlAdmin.updateSkills);
+
+module.exports = router;

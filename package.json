@@ -24,6 +24,8 @@
   "dependencies": {
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "formidable": "^1.2.1",
     "http-errors": "^1.8.0",
     "morgan": "^1.10.0",
     "pug": "^3.0.0"

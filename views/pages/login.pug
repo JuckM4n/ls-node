@@ -1,5 +1,8 @@
 extends ../_template
 
+block variables
+  - var title = 'Login page'
+
 block content
   header.header
     .container.header__container
@@ -8,7 +11,7 @@ block content
           span.title-name__doter .
         .header__social
           ul.social
-            each item in socials
+            each item in social
               li.social__item
                 a.social__link(href="http://")
                   i(class=`fab ${item}`)
