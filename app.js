@@ -1,46 +1,83 @@
-import path from 'path'
-import { fileURLToPath } from 'url'
-import express from 'express'
-import createError from 'http-errors'
-import logger from 'morgan'
-import router from './router/index.js'
-import { mongooseConnect } from './model/connection.js'
-import { config } from 'dotenv'
+const express = require('express');
+const path = require('path');
+const app = express();
+const mongoose = require('mongoose');
+const session = require('express-session');
+const flash = require('connect-flash');
+const MongoStore = require('connect-mongo')(session);
+require('./db');
+const bodyParser = require('body-parser');
+const port = process.env.PORT || 3000;
 
-config()
-
-const __filename = fileURLToPath(import.meta.url)
-
-global.__dirname = path.dirname(__filename)
-
-const app = express()
-
-app.use(logger('dev'))
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname, 'build')))
-app.use(express.static(path.join(__dirname, 'upload')))
-
-app.use('/api', router)
-app.use('*', (_req, res) => {
-    const file = path.resolve(__dirname, 'build', 'index.html')
-    res.sendFile(file)
+app.locals.basedir = path.join(__dirname, 'views');
+app.use(flash());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.text());
+app.use(
+  session({
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    secret: 'key-secret',
+    key: 'session-key',
+    cookie: {
+      path: '/',
+      httpOnly: true,
+      maxAge: 30 * 60 * 1000
+    },
+    saveUninitialized: false,
+    resave: true,
+    ephemeral: true,
+    rolling: true,
+    isAuth: false
   })
+);
 
-app.use(function(req, res, next) {
-  next(createError(404))
+app.use(function (req, res, next) {
+  let securedPathes = [];
+  securedPathes.push('/api/saveNewUser');
+  securedPathes.push('/api/updateUserPermission/:id');
+  securedPathes.push('/api/newNews');
+  securedPathes.push('/api/getUsers');
+  securedPathes.push('/api/getNews');
+  securedPathes.push('/api/updateUser/:id');
+  securedPathes.push('/api/updateNews/:id');
+  securedPathes.push('/api/saveUserImage/:id');
+  securedPathes.push('/api/deleteNews/:id');
+  securedPathes.push('/api/deleteUser/:id');
+  if (
+    securedPathes.includes(req.path) &&
+    !req.session.isAuth
+  ) {
+    res.json({
+      success: false,
+      message:
+        'Пользователь и/или пароль не заданы! Авторизация не выполнена!',
+      status: 401
+    });
+  }
+  next();
 });
 
-app.use(function(err, req, res, next) {
-  res.locals.message = err.message
-  res.locals.error = req.app.get('env') === 'development' ? err : {}
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
+});
 
-  res.status(err.status || 500)
-})
+app.use('/api', require('./router'));
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
 
+// error handler
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+});
+const server = app.listen(port, function () {
+  console.log('Сервер запущен на порте: ' + server.address().port);
+});
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log('server is run')
+// обработка ошибки
 
-    mongooseConnect(process.env.DB_URL)
-})
+require('./chat').startChat(server);
